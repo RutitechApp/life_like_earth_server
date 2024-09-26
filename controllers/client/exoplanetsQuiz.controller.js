@@ -43,7 +43,7 @@ exports.getExoplanetsQuizAction = async (req, res) => {
         $addFields: {
           "exoplanetsData.planetImage": {
             $concat: [
-              process.env.BASEURL,
+              process.env.LIVEURL,
               "/assets/exoplanetImages/",
               "$exoplanetsData.planetImage",
             ],
