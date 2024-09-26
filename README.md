@@ -1,1 +1,1 @@
-# life_like_earth_server
+# lifeLikeEarth_server

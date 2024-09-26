@@ -1,0 +1,162 @@
+<%- include('../Header.ejs');-%>
+
+<div class="main-content container-fluid">
+  <div class="page-title">
+    <div class="row">
+      <div class="col-12 col-md-6 order-md-1 order-last">
+        <h3 style="margin-bottom: 20px">Exoplanets</h3>
+      </div>
+      <div class="col-12 col-md-6 order-md-2 order-first"></div>
+        <div class="d-flex justify-content-end">
+            <a href="/admin/add-exoplanet-render" class="btn btn-secondary">Add Exoplanet</a>
+            <a href="/admin/exoplanets-csv" class="btn btn-primary m-2 mt-0 mb-0">CSV Import</a>
+
+        </div>
+    </div>
+    </div>
+  </div>
+  <%if (message.length> 0) {%>
+  <div
+    class="alert alert-dismissible"
+    style="
+      background: #5bc093;
+      border-style: solid;
+      border-color: #55a682;
+      border-width: 1px;
+      color: #fff;
+    "
+  >
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong>Message!</strong>
+    <%= message %>
+  </div>
+  <% } %> <%if(error.length> 0) {%>
+  <div
+    class="alert alert-dismissible"
+    style="
+      background: #fd7c7c;
+      border-style: solid;
+      border-color: #e64b4b;
+      border-width: 1px;
+      color: #fff;
+    "
+  >
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong>Error!</strong>
+    <%= error %>
+  </div>
+  <% } %>
+  <section class="section">
+    <div class="card">
+      <div class="card-body table-responsive">
+        <table
+          class="table table-striped"
+          id="category-table"
+          style="width: 100%"
+        >
+          <thead class="head-tbl">
+            <tr>
+              <th>Planet Image</th>
+              <th>Planet Name</th>
+              <th>Host Name</th>
+              <th>Number Of Stars</th>
+              <th>Discovery Method</th>
+              <th>Discovery Year</th>
+              <th>Discovery Facility</th>
+              <th>Solution Type</th>
+              <th>Planetary Parameter Reference</th>
+              <th>Orbital PeriodDays</th>
+              <th>Planet Mass Or Mass Sin I Earth Mass</th>
+              <th>Stellar Parameter Reference</th>
+              <th>Stellar Effective Temperature K</th>
+              <th>Stellar Surface Gravity Log 10 Cms 2</th>
+              <th>System Parameter Reference</th>
+              <th>Ra Sexagesimal</th>
+              <th>Ra Deg</th>
+              <th>Dec Sexagesimal</th>
+              <th>Dec Deg</th>
+              <th>DistancePc</th>
+              <th>V-Johnson Magnitude</th>
+              <th>Ks 2MASS Magnitude</th>
+              <th>GaiaMagnitude</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody class="table-decorate">
+            <% exoplanetData.forEach(function(item){ %>
+            <tr>
+              <td><img src="<%=item.planetImage%>" alt=""
+                height="50px" width="50px"></td>
+              <td><%=item.planetName%></td>
+              <td><%=item.hostName%></td>
+              <td><%=item.numberOfStars%></td>
+              <td><%=item.discoveryMethod%></td>
+              <td><%=item.discoveryYear%></td>
+              <td><%=item.discoveryFacility%></td>
+              <td><%=item.solutionType%></td>
+              <td><%=item.planetaryParameterReference%></td>
+              <td><%=item.orbitalPeriodDays%></td>
+              <td><%=item.planetMassOrMassSinIEarthMass%></td>
+              <td><%=item.stellarParameterReference%></td>
+              <td><%=item.stellarEffectiveTemperatureK%></td>
+              <td><%=item.stellarSurfaceGravityLog10Cms2%></td>
+              <td><%=item.systemParameterReference%></td>
+              <td><%=item.raSexagesimal%></td>
+              <td><%=item.raDeg%></td>
+              <td><%=item.decSexagesimal%></td>
+              <td><%=item.decDeg%></td>
+              <td><%=item.distancePc%></td>
+              <td><%=item.vJohnsonMagnitude%></td>
+              <td><%=item.ks2MASSMagnitude%></td>
+              <td><%=item.gaiaMagnitude%></td>
+                <td>
+                  <a href="/admin/edit-exoplanets/<%=item._id%>"
+                    class="btn icon btn-primary"><i
+                        data-feather="edit"></i></a>
+                  <a href="/admin/delete-exoplanet/<%=item._id%>"
+                      class="btn icon btn-danger"><i data-feather="delete"
+                          width="20"></i>
+                  </a>
+              </td>
+            </tr>
+            <%})%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+<script type="text/javascript">
+  $(document).ready(function () {
+    var table = $("#category-table").DataTable({
+      dom: '<"dt-top-container"<l><"dt-center-in-div"B><f>r>t<"dt-filter-spacer"f><ip>',
+      buttons: ["copy", "pdf", "csv", "print", "colvis"],
+    });
+  });
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() returns month from 0-11
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+</script>
+<script>
+  const message = `<%= message %>`
+  if (message.length) {
+      setTimeout(() => {
+          var alertNode = document.querySelector('#alert')
+          alertNode.remove()
+      }, 3000);
+  }
+  const error = `<%= error %>`
+  if (error.length) {
+      setTimeout(() => {
+          var alertNode = document.querySelector('#alert')
+          alertNode.remove()
+      }, 3000);
+  }
+</script>
+
+<%- include('../Footer')-%>

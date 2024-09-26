@@ -1,0 +1,218 @@
+<%- include('../Header.ejs');-%>
+
+<div class="main-content container-fluid">
+  <div class="page-title mb-3">
+    <div class="row">
+      <div class="col-12 col-md-6 order-md-1 order-last">
+        <h3>Edit exoplanets</h3>
+      </div>
+
+      <div class="col-12 col-md-6 order-md-2 order-first">
+        <div class="d-flex justify-content-end">
+          <a href="/admin/exoplanets" class="btn btn-secondary"> Back</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section id="basic-vertical-layouts">
+    <div class="row match-height">
+      <div class="col-md-12 col-sm-12 mx-auto">
+        <div class="card">
+          <div class="card-header"></div>
+          <div class="card-content">
+            <div class="card-body">
+              <form
+                class="form form-vertical"
+                action="/admin/edit-exoplanets-quiz-action/<%=exoplanetQuizResults._id%>"
+                method="POST"
+              >
+                <%if (message.length> 0) {%>
+                <div
+                  class="alert alert-dismissible"
+                  style="
+                    background: #5bc093;
+                    border-style: solid;
+                    border-color: #55a682;
+                    border-width: 1px;
+                    color: #fff;
+                  "
+                >
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                  ></button>
+                  <strong>Message!</strong>
+                  <%= message %>
+                </div>
+                <% } %> <%if(error.length> 0) {%>
+                <div
+                  class="alert alert-dismissible"
+                  style="
+                    background: #fd7c7c;
+                    border-style: solid;
+                    border-color: #e64b4b;
+                    border-width: 1px;
+                    color: #fff;
+                  "
+                >
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                  ></button>
+                  <strong>Error!</strong>
+                  <%= error %>
+                </div>
+                <% } %>
+                <div class="form-body">
+                  <div class="row flex-column align-content-around">
+                  <div class="col-12 mx-auto">
+                      <div class="form-group">
+                          <label for="first-name-vertical">Exoplanet Name</label>
+                          <input type="text" id="first-name-vertical"
+                              class="form-control" name="question"
+                              placeholder="<%=exoplanetQuizResults.exoplanet_id.planetName%>" required disabled>
+                      </div>
+                  </div>
+                  <div class="col-12 mx-auto">
+                      <div class="form-group">
+                          <label for="first-name-vertical">Question</label>
+                          <input type="text" id="first-name-vertical"
+                              class="form-control" name="question"
+                              placeholder="<%=exoplanetQuizResults.question%>" >
+                      </div>
+                  </div>
+                  <div class="col-12 mx-auto">
+                      <div class="form-group">
+                          <label for="first-name-vertical">Answer</label>
+                          <input type="text" id="first-name-vertical"
+                              class="form-control" name="answer"
+                              placeholder="<%=exoplanetQuizResults.answer%>" >
+                      </div>
+                  </div>
+                  <div class="col-12 mx-auto">
+                      <div class="form-group">
+                          <label for="first-name-vertical">Option A</label>
+                          <input type="text" id="first-name-vertical"
+                              class="form-control" name="option_a"
+                              placeholder="<%=exoplanetQuizResults.option_a%>" >
+                      </div>
+                  </div>
+                  <div class="col-12 mx-auto">
+                      <div class="form-group">
+                          <label for="first-name-vertical">Option B</label>
+                          <input type="text" id="first-name-vertical"
+                              class="form-control" name="option_b"
+                              placeholder="<%=exoplanetQuizResults.option_b%>" >
+                      </div>
+                  </div>
+                  <div class="col-12 mx-auto">
+                      <div class="form-group">
+                          <label for="first-name-vertical">Option C</label>
+                          <input type="text" id="first-name-vertical"
+                              class="form-control" name="option_c"
+                              placeholder="<%=exoplanetQuizResults.option_c%>" >
+                      </div>
+                  </div>
+                  <div class="col-12 mx-auto">
+                      <div class="form-group">
+                          <label for="first-name-vertical">Option D</label>
+                          <input type="text" id="first-name-vertical"
+                              class="form-control" name="option_d"
+                              placeholder="<%=exoplanetQuizResults.option_d%>" >
+                      </div>
+                  </div>
+                    <div class="col-12 mx-auto d-flex justify-content-center">
+                      <button type="submit" class="btn btn-primary me-1 mb-1">
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  function readFile(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        var htmlPreview =
+          '<img width="200" class="mb-3" src="' + e.target.result + '" />';
+        var wrapperZone = $(input).parent();
+        var previewZone = $(input).parent().parent().find(".preview-zone");
+        var boxZone = $(input)
+          .parent()
+          .parent()
+          .find(".preview-zone")
+          .find(".box")
+          .find(".box-body");
+
+        wrapperZone.removeClass("dragover");
+        previewZone.removeClass("hidden");
+        boxZone.empty();
+        boxZone.append(htmlPreview);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function reset(e) {
+    e.wrap("<form>").closest("form").get(0).reset();
+    e.unwrap();
+  }
+
+  $(".dropzone").change(function () {
+    readFile(this);
+  });
+
+  $(".dropzone-wrapper").on("dragover", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $(this).addClass("dragover");
+  });
+
+  $(".dropzone-wrapper").on("dragleave", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $(this).removeClass("dragover");
+  });
+
+  $(".remove-preview").on("click", function () {
+    var boxZone = $(this).parents(".preview-zone").find(".box-body");
+    var previewZone = $(this).parents(".preview-zone");
+    var dropzone = $(this).parents(".form-group").find(".dropzone");
+    boxZone.empty();
+    previewZone.addClass("hidden");
+    reset(dropzone);
+  });
+</script>
+<script>
+  const message = `<%= message %>`;
+  if (message.length) {
+    setTimeout(() => {
+      var alertNode = document.querySelector("#alert");
+      alertNode.remove();
+    }, 3000);
+  }
+</script>
+<script>
+  const error = `<%= error %>`;
+  if (error.length) {
+    setTimeout(() => {
+      var alertNode = document.querySelector("#alert");
+      alertNode.remove();
+    }, 3000);
+  }
+</script>
+
+<%- include('../Footer')-%>
