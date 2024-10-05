@@ -24,60 +24,6 @@ exports.getExoplanetsQuizAction = async (req, res) => {
           exoplanet_id: new mongoose.Types.ObjectId(exoplanetId),
         },
       },
-      // {
-      //   $lookup: {
-      //     from: "exoplanets",
-      //     localField: "exoplanet_id",
-      //     foreignField: "_id",
-      //     as: "exoplanetsData",
-      //   },
-      // },
-      // {
-      //   $unwind: {
-      //     path: "$exoplanetsData",
-      //     preserveNullAndEmptyArrays: true,
-      //   },
-      // },
-      // {
-      //   $addFields: {
-      //     "exoplanetsData.planetImage": {
-      //       $concat: [
-      //         process.env.LIVEURL,
-      //         "/assets/exoplanetImages/",
-      //         "$exoplanetsData.planetImage",
-      //       ],
-      //     },
-      //   },
-      // },
-      // {
-      //   $group: {
-      //     _id: "$exoplanet_id",
-      //     // exoplanetsData: { $first: "$exoplanetsData" },
-      //     quizQuestions: {
-      //       $push: {
-      //         _id: "$_id",
-      //         question: "$question",
-      //         answer: "$answer",
-      //         option_a: "$option_a",
-      //         option_b: "$option_b",
-      //         option_c: "$option_c",
-      //         option_d: "$option_d",
-      //         createdAt: "$createdAt",
-      //         updatedAt: "$updatedAt",
-      //       },
-      //     },
-      //   },
-      // },
-      // {
-      //   $project: {
-      //      exoplanetsData: {
-      //       isDeleted: 0,
-      //      __v: 0,
-      //       createdAt: 0,
-      //       updatedAt: 0,
-      //      },
-      //   },
-      // },
     ]);
 
     // Check if data was found
@@ -90,11 +36,23 @@ exports.getExoplanetsQuizAction = async (req, res) => {
       });
     }
 
+    const formattedQuizData = exoplanetsQuizData.map((quizItem, index) => ({
+      id: quizItem._id,
+      question: quizItem.question,
+      options: [
+        quizItem.option_a,
+        quizItem.option_b,
+        quizItem.option_c,
+        quizItem.option_d,
+      ],
+      correctAnswer: quizItem.answer,
+    }));
+
     return res.status(HttpStatus.OK).json({
       message: ResponseMessage.get_exoplanets_quiz_successfully,
       status: HttpStatus.OK,
       success: true,
-      data: exoplanetsQuizData,
+      data: formattedQuizData,
     });
   } catch (error) {
     return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
