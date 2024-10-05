@@ -41,6 +41,7 @@ exports.addExoplanetAction = async (req, res) => {
     const {
       planetName,
       hostName,
+      planetType,
       numberOfStars,
       discoveryMethod,
       discoveryYear,
@@ -61,11 +62,14 @@ exports.addExoplanetAction = async (req, res) => {
       vJohnsonMagnitude,
       ks2MASSMagnitude,
       gaiaMagnitude,
+      description,
     } = req.body;
 
     const exoplanetDetails = new ExoplanetModel({
       planetName: planetName,
       hostName: hostName,
+      planetType: planetType,
+      description: description,
       numberOfStars: numberOfStars,
       discoveryMethod: discoveryMethod,
       discoveryYear: discoveryYear,
@@ -146,6 +150,8 @@ exports.addCsvExoplanetAction = async (req, res) => {
           const exoplanet = new ExoplanetModel({
             planetName: row.planetName,
             hostName: row.hostName,
+            planetType: row.planetType,
+            description: row.description,
             numberOfStars: row.numberOfStars
               ? Number(row.numberOfStars)
               : undefined,
@@ -235,22 +241,6 @@ exports.editExoplanetImageAction = async (req, res, next) => {
     const file = req.file;
     let imagePlanet;
 
-    // if (file) {
-    //   imagePlanet = req.file.filename;
-    //   if (exoplanetData.planetImage) {
-    //     fs.unlink(
-    //       `/assets/exoplanetImages/${exoplanetData.planetImage}`,
-    //       (err) => {
-    //         if (err) {
-    //           console.log("🚀 ~ exports.editExoplanetImageAction= ~ err:", err);
-    //         }
-    //       }
-    //     );
-    //   }
-    // } else {
-    //   imagePlanet = exoplanetData.video;
-    // }
-
     if (file) {
       imagePlanet = req.file.filename;
       if (exoplanetData.planetImage) {
@@ -258,10 +248,6 @@ exports.editExoplanetImageAction = async (req, res, next) => {
           __dirname,
           "../../public/assets/exoplanetImages",
           exoplanetData.planetImage
-        );
-        console.log(
-          "🚀 ~ exports.editExoplanetImageAction= ~ filePath:",
-          filePath
         );
 
         // Check if the file exists before deleting

@@ -6,6 +6,8 @@ const exoplanetSchema = new Schema(
     planetName: { type: String }, // Planet name
     planetImage: { type: String }, // Planet name
     hostName: { type: String }, // Host star name
+    planetType: { type: String }, // Host star name
+    description: { type: String }, // Host star name
     numberOfStars: { type: Number }, // Number of stars in the system
     discoveryMethod: { type: String }, // Discovery method
     discoveryYear: { type: Number }, // Year of discovery
