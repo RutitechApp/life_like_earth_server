@@ -10,7 +10,7 @@ exports.getExoplanetsAction = async (req, res) => {
         $addFields: {
           planetImage: {
             $concat: [
-              process.env.BASEURL,
+              process.env.LIVEURL,
               "/assets/exoplanetImages/",
               "$planetImage",
             ],
