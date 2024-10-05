@@ -9,7 +9,7 @@
     "plantName": "Mercury",
     "description": "Mercury is the closest planet to the Sun, and the smallest planet in our solar system - only slightly larger than Earth's Moon.",
     "plantType": "terrestrial",
-    "image": "https://life-like-earth-server.vercel.app/assets/planetsImages/mercury.png"
+    "image": "https://life-like-earth-server.vercel.app/assets/planetsImages/Mercury.png"
   },
   {
     "plantName": "Venus",
