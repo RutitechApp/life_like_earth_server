@@ -2,6 +2,7 @@ const { default: mongoose } = require("mongoose");
 const ExoplanetQuizModel = require("../../models/exoplanets-quiz.model");
 const { HttpStatus } = require("../../utils/httpStatusCode");
 const { ResponseMessage } = require("../../utils/responseMessage");
+const ExoplanetModel = require("../../models/exoplanet.model");
 
 exports.getExoplanetsQuizAction = async (req, res) => {
   try {
@@ -16,6 +17,8 @@ exports.getExoplanetsQuizAction = async (req, res) => {
         data: {},
       });
     }
+
+    const exoplanetData = await ExoplanetModel.findById(exoplanetId).lean();
 
     const exoplanetsQuizData = await ExoplanetQuizModel.aggregate([
       {
@@ -52,7 +55,18 @@ exports.getExoplanetsQuizAction = async (req, res) => {
       message: ResponseMessage.get_exoplanets_quiz_successfully,
       status: HttpStatus.OK,
       success: true,
-      data: formattedQuizData,
+      data: {
+        exoplanetData: {
+          planetName: exoplanetData.planetName,
+          hostName: exoplanetData.hostName,
+          planetImage: `${
+            process.env.LIVEURL +
+            "/assets/exoplanetImages/" +  
+            exoplanetData.planetImage
+          }`,
+        }, // Single exoplanet data
+        quizData: formattedQuizData, // Quiz data related to the exoplanet
+      },
     });
   } catch (error) {
     return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
