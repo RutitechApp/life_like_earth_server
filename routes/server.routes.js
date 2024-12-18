@@ -44,12 +44,12 @@ router.use(
     saveUninitialized: false,
     secret: process.env.SECRET_KEY_ADMIN,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI, // Your MongoDB connection string
+      mongoUrl: process.env.MONGODB_URI,
       collectionName: "sessions",
     }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 365,
-      secure: false, // Set to true if you're using HTTPS
+      secure: false,
     },
   })
 );

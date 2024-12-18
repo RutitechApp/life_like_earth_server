@@ -5,16 +5,25 @@ const csv = require("fast-csv");
 
 exports.exoplanetManageRenderAction = async (req, res) => {
   try {
-    const exoplanetData = await ExoplanetModel.find({ isDeleted: false });
+    const { page = 1, limit = 10 } = req.query; // default limit to 10 if not provided
+    const query = { isDeleted: false };
 
-    Object.keys(exoplanetData).forEach(function (key) {
-      var row = exoplanetData[key];
-      row.planetImage =
-        `${process.env.BASEURL}/assets/exoplanetImages/` + row.planetImage;
+    const exoplanetData = await ExoplanetModel.find(query)
+      .skip((page - 1) * limit)
+      .limit(Number(limit))
+      .lean();
+
+    exoplanetData.forEach((row) => {
+      row.planetImage = `${process.env.BASEURL}/assets/exoplanetImages/${row.planetImage}`;
     });
 
+    const totalDocuments = await ExoplanetModel.countDocuments(query);
+
     return res.render("Exoplanet/Exoplanets", {
-      exoplanetData: exoplanetData,
+      exoplanetData,
+      currentPage: Number(page),
+      totalPages: Math.ceil(totalDocuments / limit),
+      limit: Number(limit),
       message: req.flash("message"),
       error: req.flash("error"),
     });

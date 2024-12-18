@@ -23,8 +23,8 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
-app.get("/", (req, res) => {  
-  res.send("Hello habiTribe :)");
+app.get("/", (req, res) => {
+  return res.redirect('/admin/login');
 });
 app.use("/", require("./routes/index"));
 
