@@ -296,3 +296,41 @@ exports.editExoplanetImageAction = async (req, res, next) => {
     req.flash("error", error.message);
   }
 };
+
+exports.updatePlanetImagesByType = async (req, res) => {
+  try {
+    const { planetType, planetImage } = req.body; // Planet type to update
+
+    if (!planetType || !planetImage) {
+      return res.status(400).json({
+        message: "Planet type and planet image are required.",
+        status: 400,
+        success: false,
+        data: {},
+      });
+    }
+
+    // Update all documents matching the planetType
+    const result = await ExoplanetModel.updateMany(
+      { planetType },
+      { $set: { planetImage } }
+    );
+
+    return res.status(200).json({
+      message: `Planet images updated successfully for planetType: ${planetType}`,
+      status: 200,
+      success: true,
+      data: {
+        matchedCount: result.matchedCount, // Number of documents matched
+        modifiedCount: result.modifiedCount, // Number of documents updated
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+      status: 500,
+      success: false,
+      data: {},
+    });
+  }
+};

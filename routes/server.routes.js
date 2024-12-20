@@ -22,6 +22,7 @@ const {
   addCsvExoplanetAction,
   editCsvExoplanetManageRenderAction,
   editExoplanetImageAction,
+  updatePlanetImagesByType,
 } = require("../controllers/admin/exoplanets.controller");
 const {
   exoplanetQuizManageRenderAction,
@@ -118,6 +119,10 @@ router.get(
   "/delete-exoplanets-quiz/:id",
   checkAdminLogin,
   deleteExoplanetQuizAction
+);
+router.post(
+  "/updatePlanetImagesByType",
+  updatePlanetImagesByType
 );
 
 module.exports = router;
