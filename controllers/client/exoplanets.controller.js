@@ -48,3 +48,56 @@ exports.getExoplanetsAction = async (req, res) => {
     });
   }
 };
+
+exports.getExoplanetsByPlanetTypeAction = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, planetType } = req.query;
+
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    const filter = { isDeleted: false };
+    if (planetType) {
+      filter.planetType = planetType;
+    }
+
+    const exoplanetsData = await ExoplanetModel.aggregate([
+      { $match: filter },
+      {
+        $addFields: {
+          planetImage: {
+            $concat: [
+              process.env.LIVEURL,
+              "/assets/exoplanetImages/",
+              "$planetImage",
+            ],
+          },
+        },
+      },
+      { $skip: (pageNumber - 1) * limitNumber },
+      { $limit: limitNumber },
+    ]);
+
+    const totalCount = await ExoplanetModel.countDocuments(filter);
+
+    return res.status(HttpStatus.OK).json({
+      message: ResponseMessage.get_exoplanets_successfully,
+      status: HttpStatus.OK,
+      success: true,
+      data: exoplanetsData,
+      pagination: {
+        totalItems: totalCount,
+        totalPages: Math.ceil(totalCount / limitNumber),
+        currentPage: pageNumber,
+      },
+    });
+  } catch (error) {
+    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      message: error.message,
+      status: HttpStatus.INTERNAL_SERVER_ERROR,
+      success: false,
+      data: {},
+    });
+  }
+};
+
