@@ -67,6 +67,7 @@ exports.ResponseMessage = {
   password_not_changed: "Password not changed",
   messenger_page_not_configured: "Messenger page is not configured",
   get_exoplanets_successfully: "Get exoplanets successfully",
+  get_planet_type_exoplanets_successfully: "Get planet type exoplanets successfully",
   get_exoplanets_quiz_successfully: "Get exoplanets wise quiz successfully",
   whatsapp_number_not_configured: "WhatsApp number is not configured",
   forgot_password_link_sent_on_your_email:

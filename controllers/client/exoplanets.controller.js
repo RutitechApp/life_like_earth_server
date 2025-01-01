@@ -81,7 +81,7 @@ exports.getExoplanetsByPlanetTypeAction = async (req, res) => {
     const totalCount = await ExoplanetModel.countDocuments(filter);
 
     return res.status(HttpStatus.OK).json({
-      message: ResponseMessage.get_exoplanets_successfully,
+      message: ResponseMessage.get_planet_type_exoplanets_successfully,
       status: HttpStatus.OK,
       success: true,
       data: exoplanetsData,
