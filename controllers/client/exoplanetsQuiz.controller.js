@@ -59,13 +59,12 @@ exports.getExoplanetsQuizAction = async (req, res) => {
         exoplanetData: {
           planetName: exoplanetData.planetName,
           hostName: exoplanetData.hostName,
-          planetImage: `${
-            process.env.LIVEURL +
-            "/assets/exoplanetImages/" +  
+          planetImage: `${process.env.LIVEURL +
+            "/assets/exoplanetImages/" +
             exoplanetData.planetImage
-          }`,
-        }, // Single exoplanet data
-        quizData: formattedQuizData, // Quiz data related to the exoplanet
+            }`,
+        },
+        quizData: formattedQuizData,
       },
     });
   } catch (error) {

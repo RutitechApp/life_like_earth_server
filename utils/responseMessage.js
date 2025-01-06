@@ -239,4 +239,12 @@ exports.ResponseMessage = {
     "Get category by id product type get successfully",
   period_added_successfully: "Period added successfully",
   get_period_successfully: "Get Periods successfully",
+  token_is_invalid_please_log_in_again: "Token is invalid. Please log in again.",
+  get_login_user_info_successfully: "Get login user info successfully",
+  logout_successfully: "Logout successfully",
+  invalid_exoplanet_id: "Invalid exoplanet ID",
+  no_quiz_questions_found_for_this_exoplanet: "No quiz questions found for this exoplanet",
+  quiz_submitted_successfully: "Quiz submitted successfully",
+  no_quiz_results_found_for_the_specified_user: "No quiz results found for the specified user",
+  user_quiz_results_fetched_successfully: "User quiz results fetched successfully",
 };
